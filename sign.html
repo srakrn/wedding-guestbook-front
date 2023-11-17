@@ -55,7 +55,10 @@
                 </div>
             </div>
         </div>
-        <div id="debug"></div>
+        <div id="debug">
+            <div id="pressure"></div>
+            <div id="type"></div>
+        </div>
     </div>
 </body>
 
@@ -69,7 +72,9 @@
     });
 
     signaturePad.addEventListener("beginStroke", (args) => {
-        document.querySelector("#debug").innerHTML = args.detail.pressure + args.detail.pointerType;
+        detail = args.detail;
+        document.querySelector("#pressure").innerHTML = args.detail.pressure;
+        document.querySelector("#type").innerHTML = args.detail.pointerType;
     });
 
     document.addEventListener('alpine:init', () => {
