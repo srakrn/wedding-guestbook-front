@@ -55,15 +55,21 @@
                 </div>
             </div>
         </div>
+        <div id="debug"></div>
     </div>
 </body>
 
 <script>
+    let detail;
     const canvas = document.querySelector("#drawPad");
     const signaturePad = new SignaturePad(canvas, {
         minWidth: 2,
         maxWidth: 2,
         throttle: 0,
+    });
+
+    signaturePad.addEventListener("beginStroke", (args) => {
+        document.querySelector("#debug").innerHTML = args.detail.pressure + args.detail.pointerType;
     });
 
     document.addEventListener('alpine:init', () => {
