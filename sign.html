@@ -53,19 +53,22 @@
                     <button type="button" class="btn btn-primary" x-on:click="undo()">Undo</button>
                     <button type="button" class="btn btn-primary" x-on:click="submit()">Submit</button>
                 </div>
+                <div class="col">
+                    <input class="form-check-input" type="checkbox" value="" id="allowOnlyStylusCheck" checked
+                        @click="configStylus()">
+                    <label class="form-check-label" for="allowOnlyStylusCheck">
+                        Allow only stylus?
+                    </label>
+
+                </div>
             </div>
-        </div>
-        <div id="debug">
-            <div id="constructor"></div>
-            <div id="json"></div>
-            <div id="pressure"></div>
-            <div id="type"></div>
         </div>
     </div>
 </body>
 
 <script>
-    let arg;
+    let allowOnlyStylus = true;
+
     const canvas = document.querySelector("#drawPad");
     const signaturePad = new SignaturePad(canvas, {
         minWidth: 2,
@@ -73,16 +76,20 @@
         throttle: 0,
     });
 
-    signaturePad.addEventListener("beginStroke", (args) => {
-        arg = args;
-        document.querySelector("#constructor").innerHTML = args.detail.constructor;
-        document.querySelector("#pressure").innerHTML = args.detail.pressure ?? args.detail.force;
-        document.querySelector("#type").innerHTML = args.detail.pointerType ?? args.detail.touchType;
+    signaturePad.addEventListener("beginStroke", (evt) => {
+        const pressure = evt.detail.pressure ?? evt.detail.force;
+        const inputType = evt.detail.pointerType ?? evt.detail.touchType;
+        if (allowOnlyStylus && inputType != "stylus") {
+            evt.preventDefault();
+        }
     });
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('guestbook', () => ({
             svgContent: null,
+            async configStylus() {
+                allowOnlyStylus = !allowOnlyStylus;
+            },
             async submit() {
                 const data = signaturePad.toDataURL("image/svg+xml");
                 console.log(data);
