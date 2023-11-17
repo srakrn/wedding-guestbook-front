@@ -112,13 +112,26 @@
                     }
                 },
                 async setApiUrl() {
-                    localStorage.setItem("apiUrl", prompt("Please enter API URL"));
+                    let res = prompt("Please enter API URL", (localStorage.apiUrl ?? ""));
+                    if (res) {
+                        localStorage.setItem("apiUrl", res);
+                    }
                 },
                 async setApiKey() {
-                    localStorage.setItem("apiKey", prompt("Please enter API Key"));
+                    let redacted_api_key;
+                    if (localStorage.apiKey) {
+                        redacted_api_key = localStorage.apiKey.substr(0, 10) + "XXXXXXXXXXXXXXXX";
+                    }
+                    let res = prompt("Please enter API KEY", (redacted_api_key ?? ""));
+                    if (res) {
+                        localStorage.setItem("apiKey", res);
+                    }
                 },
                 async setEventName() {
-                    localStorage.setItem("apiKey", prompt("Please enter event name"));
+                    let res = prompt("Please enter event name", (localStorage.eventName ?? ""));
+                    if (res) {
+                        localStorage.setItem("eventName", res);
+                    }
                 },
             }))
         })
