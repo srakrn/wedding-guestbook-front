@@ -56,6 +56,8 @@
             </div>
         </div>
         <div id="debug">
+            <div id="constructor"></div>
+            <div id="json"></div>
             <div id="pressure"></div>
             <div id="type"></div>
         </div>
@@ -63,7 +65,7 @@
 </body>
 
 <script>
-    let detail;
+    let arg;
     const canvas = document.querySelector("#drawPad");
     const signaturePad = new SignaturePad(canvas, {
         minWidth: 2,
@@ -72,7 +74,9 @@
     });
 
     signaturePad.addEventListener("beginStroke", (args) => {
-        detail = args.detail;
+        arg = args;
+        document.querySelector("#constructor").innerHTML = args.detail.constructor;
+        document.querySelector("#json").innerHTML = JSON.stringify(args.detail);
         document.querySelector("#pressure").innerHTML = args.detail.pressure;
         document.querySelector("#type").innerHTML = args.detail.pointerType;
     });
