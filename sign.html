@@ -12,9 +12,40 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        #drawPad {
+            border-color: black;
+            border-width: 1px;
+            border-style: solid;
+        }
+    </style>
 </head>
 
 <body>
+    <div x-data="canvas">
+        <canvas id="drawPad" width="800px" height="600px"></canvas>
+        <button x-on:click="submit()">Toggle Dropdown</button>
+    </div>
+
 </body>
+
+<script>
+    const canvas = document.querySelector("#drawPad");
+
+    const signaturePad = new SignaturePad(canvas);
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('canvas', () => ({
+            svgContent: null,
+            async submit() {
+                const data = signaturePad.toDataURL("image/svg+xml");
+                console.log(data);
+            },
+        }))
+    })
+
+</script>
 
 </html>
