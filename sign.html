@@ -76,9 +76,8 @@
     signaturePad.addEventListener("beginStroke", (args) => {
         arg = args;
         document.querySelector("#constructor").innerHTML = args.detail.constructor;
-        document.querySelector("#json").innerHTML = JSON.stringify(args.detail);
-        document.querySelector("#pressure").innerHTML = args.detail.pressure;
-        document.querySelector("#type").innerHTML = args.detail.pointerType;
+        document.querySelector("#pressure").innerHTML = args.detail.pressure ?? args.detail.force;
+        document.querySelector("#type").innerHTML = args.detail.pointerType ?? args.detail.touchType;
     });
 
     document.addEventListener('alpine:init', () => {
