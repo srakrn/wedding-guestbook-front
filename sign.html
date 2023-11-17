@@ -28,8 +28,8 @@
 </head>
 
 <body>
-    <div class="container-xl" id="screen1">
-        <div class="row vh-100 justify-content-center text-center align-items-center">
+    <div class="container-xl vh-100" id="screen1">
+        <div class="row h-100 justify-content-center text-center align-items-center">
             <div class="col">
                 <img src="assets/rs-text.svg" width="60%" />
             </div>
@@ -37,21 +37,23 @@
     </div>
     <div class="container-xl vh-100" id="screen2">
         <div x-data="canvas">
-            <div class="row vh-100 justify-content-center text-center align-items-center">
+            <div class="row justify-content-center text-center align-items-center">
                 <div class="col">
                     <canvas id="drawPad" width="800px" height="600px"></canvas>
-                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-primary" x-on:click="undo()">Undo</button>
                     <button type="button" class="btn btn-primary" x-on:click="submit()">Submit</button>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 
 <script>
     const canvas = document.querySelector("#drawPad");
-
     const signaturePad = new SignaturePad(canvas);
 
     document.addEventListener('alpine:init', () => {
@@ -61,6 +63,13 @@
                 const data = signaturePad.toDataURL("image/svg+xml");
                 console.log(data);
             },
+            async undo() {
+                var data = signaturePad.toData();
+                if (data) {
+                    data.pop(); // remove the last dot or line
+                    signaturePad.fromData(data);
+                }
+            }
         }))
     })
 
