@@ -78,6 +78,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         let globAllowOnlyStylus = true;
+        let res;
         const canvas = document.querySelector("#drawPad");
         const signaturePad = new SignaturePad(canvas, {
             minWidth: 2,
@@ -102,7 +103,22 @@
                 },
                 async submit() {
                     const data = signaturePad.toDataURL("image/svg+xml");
-                    console.log(data);
+                    const response = await fetch(localStorage.apiUrl,
+                        {
+                            method: "PUT",
+                            mode: "cors",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": localStorage.apiKey,
+                            },
+                            body: JSON.stringify({
+                                "event": localStorage.eventName,
+                                "content": data
+                            })
+                        }
+                    );
+                    console.log(response);
+                    res = response;
                 },
                 async undo() {
                     var data = signaturePad.toData();
