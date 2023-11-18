@@ -56,8 +56,10 @@
                     <div id="carousel" class="carousel carousel-fade slide">
                         <div class="carousel-inner">
                             <template x-for="(entry, index) in entries">
-                                <div :class="index == 0 ? 'carousel-item active' : 'carousel-item'">
-                                    <img :src="entry.content" class="d-block w-100 paper" alt="...">
+                                <div class="d-block w-100 paper">
+                                    <div :class="index == 0 ? 'carousel-item active' : 'carousel-item'"
+                                        x-html="entry.content">
+                                    </div>
                                 </div>
                             </template>
                         </div>
