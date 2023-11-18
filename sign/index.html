@@ -45,6 +45,7 @@
             <div class="row">
                 <div class="col">
                     <button type="button" class="btn btn-primary" x-on:click="undo()">Undo</button>
+                    <button type="button" class="btn btn-primary" x-on:click="clear()">Clear</button>
                     <button type="button" class="btn btn-primary" x-on:click="submit()">Submit</button>
                 </div>
                 <div class="col">
@@ -126,6 +127,9 @@
                         data.pop(); // remove the last dot or line
                         signaturePad.fromData(data);
                     }
+                },
+                async clear() {
+                    signaturePad.clear();
                 },
                 async setwriteApiUrl() {
                     let res = prompt("Please enter API URL", (localStorage.writeApiUrl ?? ""));
