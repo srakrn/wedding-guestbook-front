@@ -58,7 +58,7 @@
                                     Allow only stylus: <span x-text="allowOnlyStylus"></span>
                                 </a>
                             </li>
-                            <li><a class="dropdown-item" href="#" @click="setApiUrl()">API URL</a></li>
+                            <li><a class="dropdown-item" href="#" @click="setwriteApiUrl()">API URL</a></li>
                             <li><a class="dropdown-item" href="#" @click="setApiKey()">API Key</a></li>
                             <li><a class="dropdown-item" href="#" @click="setEventName()">Event name</a></li>
                         </ul>
@@ -103,7 +103,7 @@
                 },
                 async submit() {
                     const data = signaturePad.toDataURL("image/svg+xml");
-                    const response = await fetch(localStorage.apiUrl,
+                    const response = await fetch(localStorage.writeApiUrl,
                         {
                             method: "PUT",
                             mode: "cors",
@@ -127,10 +127,10 @@
                         signaturePad.fromData(data);
                     }
                 },
-                async setApiUrl() {
-                    let res = prompt("Please enter API URL", (localStorage.apiUrl ?? ""));
+                async setwriteApiUrl() {
+                    let res = prompt("Please enter API URL", (localStorage.writeApiUrl ?? ""));
                     if (res) {
-                        localStorage.setItem("apiUrl", res);
+                        localStorage.setItem("writeApiUrl", res);
                     }
                 },
                 async setApiKey() {

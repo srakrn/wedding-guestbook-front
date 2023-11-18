@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        html {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .vh-100 {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="alpineSlideshow" x-data="slideshow">
+        <div class="container-xl vh-100" id="screen2">
+            <div class="row justify-content-center text-center align-items-center">
+                <div class="col">
+                    <p x-text="entries.length"></p>
+                    <template x-for="entry in entries">
+                        <img :src="entry.content" />
+                    </template>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">
+                            Config
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" @click="getEntries()">GET</a></li>
+                            <li><a class="dropdown-item" href="#" @click="setlistApiUrl()">API URL</a></li>
+                            <li><a class="dropdown-item" href="#" @click="setApiKey()">API Key</a></li>
+                            <li><a class="dropdown-item" href="#" @click="setEventName()">Event name</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('slideshow', () => ({
+                entries: [],
+                async getEntries() {
+                    const response = await fetch(localStorage.listApiUrl + new URLSearchParams(
+                        {
+                            event: localStorage.eventName
+                        }),
+                        {
+                            method: "GET",
+                            mode: "cors",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": localStorage.apiKey,
+                            }
+                        }
+                    );
+                    this.entries = await response.json();
+                    console.log(this.entries);
+                },
+                async setlistApiUrl() {
+                    let res = prompt("Please enter API URL", (localStorage.listApiUrl ?? ""));
+                    if (res) {
+                        localStorage.setItem("listApiUrl", res);
+                    }
+                },
+                async setApiKey() {
+                    let redacted_api_key;
+                    if (localStorage.apiKey) {
+                        redacted_api_key = localStorage.apiKey.substr(0, 10) + "XXXXXXXXXXXXXXXX";
+                    }
+                    let res = prompt("Please enter API KEY", (redacted_api_key ?? ""));
+                    if (res) {
+                        localStorage.setItem("apiKey", res);
+                    }
+                },
+                async setEventName() {
+                    let res = prompt("Please enter event name", (localStorage.eventName ?? ""));
+                    if (res) {
+                        localStorage.setItem("eventName", res);
+                    }
+                },
+                init() {
+                    setInterval(() => this.getEntries(), 10000);
+                    this.getEntries();
+                },
+
+            }))
+        })
+    </script>
+</body>
+
+</html>
