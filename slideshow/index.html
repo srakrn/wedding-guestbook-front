@@ -50,7 +50,6 @@
                             <li><a class="dropdown-item" href="#" @click="setEventName()">Event name</a></li>
                         </ul>
                     </div>
-
                 </div>
                 <div class="col-9">
                     <div id="carousel" class="carousel carousel-fade slide">
@@ -79,12 +78,17 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('slideshow', () => ({
                 entries: [],
-                carousel: null,
+                start_after: '',
                 async getEntries() {
-                    const response = await fetch(localStorage.listApiUrl + new URLSearchParams(
+                    const param = new URLSearchParams(
                         {
-                            event: localStorage.eventName
-                        }),
+                            event: localStorage.eventName,
+                            start_after: this.start_after
+                        }
+                    );
+                    const request_url = localStorage.listApiUrl + "?" + param;
+                    console.log(request_url);
+                    const response = await fetch(request_url,
                         {
                             method: "GET",
                             mode: "cors",
@@ -94,7 +98,11 @@
                             }
                         }
                     );
-                    this.entries = await response.json();
+                    resp = await response.json();
+                    console.log(resp);
+                    this.entries = this.entries.concat(resp["contents"]);
+                    this.start_after = resp["contents"].at(-1)["key"];
+                    console.log("Next load starts after " + this.start_after);
                 },
                 async setlistApiUrl() {
                     let res = prompt("Please enter API URL", (localStorage.listApiUrl ?? ""));
