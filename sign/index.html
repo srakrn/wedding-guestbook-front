@@ -24,8 +24,8 @@
         }
 
         #drawPad {
-            background-color: #fff;
-            border-color: black;
+            background-image: url("../assets/backgrounds/so-white.png");
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
             border-width: 1px;
             border-style: solid;
         }
@@ -166,7 +166,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('guestbook', () => ({
                 allowOnlyStylus: globAllowOnlyStylus,
-                screen: 1,
+                screen: 0,
                 async configStylus() {
                     this.allowOnlyStylus = !this.allowOnlyStylus;
                     globAllowOnlyStylus = this.allowOnlyStylus;
