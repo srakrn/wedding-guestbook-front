@@ -32,7 +32,7 @@
                         <div class="carousel-inner">
                             <template x-for="(entry, index) in entries">
                                 <div :class="index == 0 ? 'carousel-item active' : 'carousel-item'">
-                                    <div class="d-block w-100 paper" x-html="entry.content">
+                                    <div class="d-block w-100 paper svg-item" x-html="entry.content">
                                     </div>
                                 </div>
                             </template>
@@ -106,7 +106,7 @@
                     setInterval(() => this.getEntries(), 10000);
                     this.getEntries();
                     this.carousel = new bootstrap.Carousel("#carousel", {
-                        interval: 2000,
+                        interval: 10000,
                         touch: false,
                         pause: false
                     });

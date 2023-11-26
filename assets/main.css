@@ -80,3 +80,7 @@ body {
 #carousel {
     transform: rotate(-2deg);
 }
+
+.svg-item svg {
+    width: 100% !important;
+}
