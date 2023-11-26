@@ -36,8 +36,11 @@
             </div>
         </div>
         <div class="container-xl vh-100" id="screen1" x-show="screen == 1" x-transition>
-            <div class="row pt-5">
+            <div class="row pt-5 pb-3">
                 <div class="col justify-content-center text-center align-items-center">
+                    <div class="alert alert-danger" role="alert" x-show="err" x-html="err">
+                        Error!
+                    </div>
                     <canvas id="drawPad" class="paper" width="800px" height="600px"></canvas>
                 </div>
             </div>
@@ -151,6 +154,7 @@
                 Alpine.data('guestbook', () => ({
                     allowOnlyStylus: globAllowOnlyStylus,
                     screen: 0,
+                    err: null,
                     async configStylus() {
                         this.allowOnlyStylus = !this.allowOnlyStylus;
                         globAllowOnlyStylus = this.allowOnlyStylus;
@@ -167,22 +171,35 @@
                     },
                     async submit() {
                         const data = toSvgWithoutScaling(signaturePad);
-                        const response = await fetch(localStorage.writeApiUrl,
-                            {
-                                method: "PUT",
-                                mode: "cors",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": localStorage.apiKey,
-                                },
-                                body: JSON.stringify({
-                                    "event": localStorage.eventName,
-                                    "content": data
-                                })
+                        try {
+                            const response = await fetch(localStorage.writeApiUrl,
+                                {
+                                    method: "PUT",
+                                    mode: "cors",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Authorization": localStorage.apiKey,
+                                    },
+                                    body: JSON.stringify({
+                                        "event": localStorage.eventName,
+                                        "content": data
+                                    })
+                                }
+                            );
+                            if (response.ok) {
+                                this.err = null;
+                                this.screen = 2;
+                                setTimeout(() => { this.screen = this.screen == 2 ? 0 : this.screen }, 10000);
                             }
-                        );
-                        console.log(response);
-                        res = response;
+                            else {
+                                const responseContent = await response.text();
+                                this.err = responseContent;
+                                console.log(this.err);
+                            }
+                        }
+                        catch (err) {
+                            this.err = err;
+                        }
                     },
                     async setwriteApiUrl() {
                         let res = prompt("Please enter API URL", (localStorage.writeApiUrl ?? ""));
