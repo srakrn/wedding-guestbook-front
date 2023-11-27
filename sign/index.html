@@ -191,7 +191,9 @@
                         }
                     },
                     async clear() {
-                        signaturePad.clear();
+                        if (confirm("Really want to clear everything?")) {
+                            signaturePad.clear();
+                        }
                     },
                     async submit() {
                         const data = toSvgWithoutScaling(signaturePad);
