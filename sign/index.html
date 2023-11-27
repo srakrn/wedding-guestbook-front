@@ -50,8 +50,21 @@
                         <table style="width: 800px;">
                             <tr>
                                 <td style="text-align: left !important;">
-                                    <button type="button" class="btn btn-warning" @click="undo()">Undo</button>
-                                    <button type="button" class="btn btn-danger" @click="clear()">Clear</button>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            ✏️
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="#" @click="configStylus()">
+                                                    Allow only stylus: <span x-text="allowOnlyStylus"></span>
+                                                </a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#" @click="undo()">Undo</a></li>
+                                            <li><a class="dropdown-item" href="#" @click="clear()">Clear</a></li>
+                                        </ul>
+                                    </div>
                                 </td>
                                 <td style="text-align: right !important;">
                                     <button type="button" class="btn btn-primary btn-lg"
