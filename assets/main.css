@@ -40,5 +40,6 @@ html {
 }
 
 .svg-item svg {
-    width: 100% !important;
+    width: 96% !important;
+    height: 96% !important;
 }
