@@ -68,7 +68,8 @@
                                 </td>
                                 <td style="text-align: right !important;">
                                     <button type="button" class="btn btn-primary btn-lg"
-                                        @click="submit()">Submit</button>
+                                        x-html="submitting ? 'Submitting...' : 'Submit!'" x-bind:disabled="submitting"
+                                        @click="submit()"></button>
                                 </td>
                             </tr>
                         </table>
@@ -179,6 +180,7 @@
                     allowOnlyStylus: globAllowOnlyStylus,
                     screen: 0,
                     err: null,
+                    submitting: false,
                     async configStylus() {
                         this.allowOnlyStylus = !this.allowOnlyStylus;
                         globAllowOnlyStylus = this.allowOnlyStylus;
@@ -196,6 +198,7 @@
                         }
                     },
                     async submit() {
+                        this.submitting = true;
                         const data = toSvgWithoutScaling(signaturePad);
                         try {
                             const response = await fetch(localStorage.writeApiUrl,
@@ -226,6 +229,7 @@
                         catch (err) {
                             this.err = err;
                         }
+                        this.submitting = false;
                     },
                     async setwriteApiUrl() {
                         let res = prompt("Please enter API URL", (localStorage.writeApiUrl ?? ""));

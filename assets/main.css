@@ -12,6 +12,8 @@
     --bs-btn-hover-border-color: #503025;
     --bs-btn-active-bg: #5B3E34;
     --bs-btn-active-border-color: #503025;
+    --bs-btn-disabled-bg: #5B3E34;
+    --bs-btn-disabled-border-color: #503025;
 }
 
 html {
