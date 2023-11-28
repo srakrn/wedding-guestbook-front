@@ -64,6 +64,14 @@
                                             </li>
                                             <li><a class="dropdown-item" href="#" @click="undo()">Undo</a></li>
                                             <li><a class="dropdown-item" href="#" @click="clear()">Clear</a></li>
+                                            <li><a class="dropdown-item" href="#" @click="setwriteApiUrl()"
+                                                    x-show="panicMode">API URL</a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="#" @click="setApiKey()"
+                                                    x-show="panicMode">API Key</a></li>
+                                            <li><a class="dropdown-item" href="#" @click="setEventName()"
+                                                    x-show="panicMode">Event name</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </td>
@@ -121,6 +129,7 @@
                     screen: 0,
                     err: null,
                     submitting: false,
+                    panicMode: false,
                     async configStylus() {
                         this.allowOnlyStylus = !this.allowOnlyStylus;
                         globAllowOnlyStylus = this.allowOnlyStylus;
@@ -160,15 +169,17 @@
                                 this.screen = 2;
                                 signaturePad.clear();
                                 setTimeout(() => { this.screen = this.screen == 2 ? 0 : this.screen }, 20000);
+                                this.panicMode = false;
                             }
                             else {
                                 const responseContent = await response.text();
                                 this.err = responseContent;
-                                console.log(this.err);
+                                this.panicMode = true;
                             }
                         }
                         catch (err) {
                             this.err = err;
+                            this.panicMode = true;
                         }
                         this.submitting = false;
                     },
