@@ -50,7 +50,7 @@
                     <div class="row pt-3 justify-content-center text-center align-items-center">
                         <table style="width: 800px;">
                             <tr>
-                                <td style="text-align: left !important;">
+                                <td style="width: 40%; text-align: left !important;">
                                     <div class="dropdown" style="display: inline">
                                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,13 +75,13 @@
                                         </ul>
                                     </div>
                                 </td>
-                                <td style="text-align: center !important;">
+                                <td style="width: 20%; text-align: center !important;">
                                     <input id="colorPicker" class="form-control"
-                                        style="width: 200px; background-color: #6c757d; display: inline !important"
+                                        style="width: 150px; background-color: #6c757d; display: inline !important"
                                         data-jscolor="{preset:'myPreset'}"
                                         onInput="setSignaturePadColor(this.jscolor.toString())" value="#000000">
                                 </td>
-                                <td style="text-align: right !important;">
+                                <td style="width: 40%; text-align: right !important;">
                                     <button type="button" class="btn btn-primary btn-lg"
                                         x-html="submitting ? 'Submitting...' : 'Submit!'" x-bind:disabled="submitting"
                                         @click="submit()"></button>
