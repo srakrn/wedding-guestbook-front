@@ -25,7 +25,7 @@ html {
 body {
     background: #27594B;
     background-image: url("../assets/backgrounds/flower-bg.svg");
-    background-size: contain;
+    background-size: cover;
 }
 
 .vh-100 {
