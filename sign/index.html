@@ -219,7 +219,7 @@
                             if (response.ok) {
                                 this.err = null;
                                 this.screen = 2;
-                                this.clear();
+                                signaturePad.clear();
                                 setTimeout(() => { this.screen = this.screen == 2 ? 0 : this.screen }, 10000);
                             }
                             else {
