@@ -22,6 +22,11 @@ html {
     user-select: none;
 }
 
+body {
+    background: #27594B;
+    background-image: url("../assets/backgrounds/flower-bg.svg");
+}
+
 .vh-100 {
     min-height: 100vh;
 }
