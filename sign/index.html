@@ -51,7 +51,7 @@
                         <table style="width: 800px;">
                             <tr>
                                 <td style="text-align: left !important;">
-                                    <div class="dropdown">
+                                    <div class="dropdown" style="display: inline">
                                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             ✏️
@@ -74,6 +74,12 @@
                                             </li>
                                         </ul>
                                     </div>
+                                </td>
+                                <td style="text-align: center !important;">
+                                    <input id="colorPicker" class="form-control"
+                                        style="width: 200px; background-color: #6c757d; display: inline !important"
+                                        data-jscolor="{preset:'myPreset'}"
+                                        onInput="setSignaturePadColor(this.jscolor.toString())" value="#000000">
                                 </td>
                                 <td style="text-align: right !important;">
                                     <button type="button" class="btn btn-primary btn-lg"
@@ -105,6 +111,7 @@
             crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.5.1/jscolor.min.js"></script>
         <script src="../assets/js/signaturepad_enhancements.js"></script>
         <script>
             let globAllowOnlyStylus = true;
@@ -115,6 +122,10 @@
                 throttle: 0,
             });
 
+            jscolor.presets.myPreset = {
+                palette: '#000 #808080 #996e36 #f55525 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4',
+            }
+
             signaturePad.addEventListener("beginStroke", (evt) => {
                 const pressure = evt.detail.pressure ?? evt.detail.force;
                 const inputType = evt.detail.pointerType ?? evt.detail.touchType;
@@ -123,10 +134,12 @@
                 }
             });
 
+            const setSignaturePadColor = (color) => { signaturePad.penColor = color };
+
             document.addEventListener('alpine:init', () => {
                 Alpine.data('guestbook', () => ({
                     allowOnlyStylus: globAllowOnlyStylus,
-                    screen: 0,
+                    screen: 1,
                     err: null,
                     submitting: false,
                     panicMode: false,
