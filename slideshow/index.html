@@ -109,10 +109,10 @@
                     }
                 },
                 init() {
-                    setInterval(() => this.getEntries(), 10000);
+                    setInterval(() => this.getEntries(), 30000);
                     this.getEntries();
                     this.carousel = new bootstrap.Carousel("#carousel", {
-                        interval: 5000000,
+                        interval: 10000,
                         touch: false,
                         pause: false
                     });
